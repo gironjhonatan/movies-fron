@@ -82,7 +82,7 @@ export default function Home() {
               <p><span className="font-semibold">Elenco:</span> {movie.cast?.length ? movie.cast.join(', ') : 'No disponible'}</p>
               <p>
                 <span className="font-semibold">Calificación:</span> 
-                <span className="text-yellow-500 ml-1">
+                <span className="text-yellow-500 ml-3">
                   {Array.from({ length: 5 }, (_, i) =>
                     i < Math.round((movie.imdbRating || 0) / 2) ? '★' : '☆'
                   ).join('')}
