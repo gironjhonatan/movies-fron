@@ -13,6 +13,7 @@ export default function Home() {
     const getMovies = async () => {
       try {
         const data = await fetchMovies('/movies');
+        console.log(data);
         setMovies(data);
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -67,10 +68,27 @@ export default function Home() {
       </header>
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full">
         {currentMovies.map((movie, index) => (
-          <div key={index} className="border p-4 rounded-lg shadow-lg bg-white flex flex-col hover:shadow-xl transition-shadow">
-            <h2 className="text-lg font-semibold mb-2 text-gray-900">{movie.title}</h2>
-            <p className="text-sm text-gray-600 mb-4">{movie.releaseDate}</p>
-            <p className="text-xs text-gray-800 truncate">{movie.description || 'Descripción no disponible'}</p>
+          <div
+            key={index}
+            className="border p-4 rounded-md shadow-md bg-white hover:shadow-lg transition-shadow"
+          >
+            <h2 className="text-md font-bold mb-3 text-indigo-600 border-b pb-1">
+              {movie.title || 'Título no disponible'}
+            </h2>
+            <div className="grid grid-cols-2 gap-2 text-gray-600 text-xs">
+              <p><span className="font-semibold">Géneros:</span> {movie.genres?.join(', ') || 'No disponible'}</p>
+              <p><span className="font-semibold">Año:</span> {movie.year || 'No disponible'}</p>
+              <p><span className="font-semibold">Visualizaciones:</span> {movie.viewerCount?.toLocaleString() || 'No disponible'}</p>
+              <p><span className="font-semibold">Elenco:</span> {movie.cast?.length ? movie.cast.join(', ') : 'No disponible'}</p>
+              <p>
+                <span className="font-semibold">Calificación:</span> 
+                <span className="text-yellow-500 ml-1">
+                  {Array.from({ length: 5 }, (_, i) =>
+                    i < Math.round((movie.imdbRating || 0) / 2) ? '★' : '☆'
+                  ).join('')}
+                </span>
+              </p>
+            </div>
           </div>
         ))}
       </main>
